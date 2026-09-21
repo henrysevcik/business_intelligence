@@ -1,0 +1,55 @@
+---
+title: "class_7"
+author: "Henry Sevcik"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+con = DBI::dbConnect(
+  RSQLite::SQLite(),
+  "../data/midwest_airbnb.db"
+)
+
+listings = DBI::dbReadTable(con, "listings")
+
+DBI::dbDisconnect(con)
+```
+
+# How many listings per city
+```{r}
+listings |>
+  dplyr::count(city)
+```
+# For entire homes (room_type == "Entire home/apt") that sleep four or more, what is the median price in each city?
+```{r}
+listings |>
+  dplyr::filter(
+    room_type == "Entire home/apt",
+    accommodates >= 4
+  ) |>
+  dplyr::group_by(city) |>
+  dplyr::summarise(
+    median_price = median(price)
+  )
+```
+# Add price_per_person = price / accommodates. Which three listings are cheapest per person? Believe them?
+```{r}
+listings |>
+  dplyr::mutate(
+    price_per_person = price / accommodates
+  ) |>
+  dplyr::arrange(price_per_person) |>
+  dplyr::slice_head(n = 3)
+```
+#4. Which five host_names have the most listings?
+```{r}
+listings |>
+  dplyr::count(host_name, sort = TRUE) |>
+  dplyr::slice_head(n = 5)
+```
+
