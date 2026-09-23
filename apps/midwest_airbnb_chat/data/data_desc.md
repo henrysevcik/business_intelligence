@@ -19,6 +19,28 @@
 | `price` | real | Nightly price in U.S. dollars on the snapshot date, with the dollar sign and commas removed. Ranges from 2.56 to 11,412; never `NULL` (rows without a price were dropped). |
 | `room_type` | text | Airbnb's four listing categories: `Entire home/apt` (11,652 rows), `Private room` (2,951), `Hotel room` (246), or `Shared room` (38). |
 
-Continue the table for the remaining 23 columns (Assignment 05): `host_id`, `host_name`, `host_since`, `host_is_superhost`, `neighbourhood`, `latitude`, `longitude`, `property_type`, `accommodates`, `bedrooms`, `beds`, `bathrooms_text`, `minimum_nights`, `availability_365`, `number_of_reviews`, `number_of_reviews_ltm`, `first_review`, `last_review`, `review_scores_rating`, `reviews_per_month`, `instant_bookable`, `estimated_revenue_l365d`, `amenities_count`.
+| `host_id` | text | Airbnb's unique identifier for the host of the listing. Stored as text even though it looks numeric. |
+| `host_name` | text | Name of the Airbnb host associated with the listing. May be `NULL` if host information is unavailable. |
+| `host_since` | text | Date the host joined Airbnb, stored as an ISO date string (`YYYY-MM-DD`). |
+| `host_is_superhost` | text | Whether the host is an Airbnb Superhost: `t` = true and `f` = false. May be `NULL` if unavailable. |
+| `neighbourhood` | text | Standardized neighborhood assigned by Inside Airbnb from the original `neighbourhood_cleansed` field. |
+| `latitude` | real | Latitude coordinate of the listing's approximate location. |
+| `longitude` | real | Longitude coordinate of the listing's approximate location. |
+| `property_type` | text | Detailed Airbnb property category, such as an entire rental unit, private room, home, condo, or hotel room. |
+| `accommodates` | integer | Maximum number of guests the listing is designed to accommodate. |
+| `bedrooms` | real | Number of bedrooms reported for the listing. May be `NULL` when bedroom information is unavailable. |
+| `beds` | real | Number of beds reported for the listing. May be `NULL` when bed information is unavailable. |
+| `bathrooms_text` | text | Airbnb's text description of the listing's bathroom count and type, such as `1 bath`, `2 baths`, or `1 shared bath`. |
+| `minimum_nights` | integer | Minimum number of nights a guest must book for a stay. |
+| `availability_365` | integer | Number of days the listing is available for booking during the next 365 days, ranging from 0 to 365. |
+| `number_of_reviews` | integer | Total number of reviews the listing has received. |
+| `number_of_reviews_ltm` | integer | Number of reviews the listing received during the last 12 months. |
+| `first_review` | text | Date of the listing's first review, stored as an ISO date string (`YYYY-MM-DD`). `NULL` for listings with no reviews. |
+| `last_review` | text | Date of the listing's most recent review, stored as an ISO date string (`YYYY-MM-DD`). `NULL` for listings with no reviews. |
+| `review_scores_rating` | real | Overall Airbnb review rating for the listing. `NULL` for listings without a rating. |
+| `reviews_per_month` | real | Average number of reviews the listing receives per month. `NULL` when a listing does not have sufficient review history. |
+| `instant_bookable` | text | Whether guests can book the listing instantly without host approval: `t` = true and `f` = false. |
+| `estimated_revenue_l365d` | real | Estimated listing revenue in U.S. dollars over the last 365 days, based on the dataset's revenue estimate. |
+| `amenities_count` | integer | Number of amenities listed for the property. This field was computed for the course by counting the items in each listing's `amenities` list. |
 
 Two hints: `neighbourhood` is Inside Airbnb's `neighbourhood_cleansed` column, and `amenities_count` is not an Inside Airbnb column; it was computed for this course as the number of items in each listing's `amenities` list. Everything else keeps its Inside Airbnb name, so the data dictionary linked above explains it.
