@@ -21,9 +21,11 @@ The app can filter the data, generate SQL queries, display tables, and create vi
 ## Example Queries
 
 - "How many listings are there in each city?"
+![Listings by city](screenshots/query1.png)
 - "Which 10 neighborhoods have the highest average nightly price?"
+![Highest average nightly price by neighborhood](screenshots/query2.png)
 - "What is the average price by room type in Chicago?"
-
+![Average price by room type in Chicago](screenshots/query3.png)
 ---
 
 ## Dataset Information
