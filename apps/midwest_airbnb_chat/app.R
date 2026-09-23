@@ -18,4 +18,22 @@ qc = querychat::querychat(
   extra_instructions = "data/extra_instructions.md"
 )
 
-qc$app_obj()
+ui = bslib::page_sidebar(
+  title = "Midwest Airbnb Explorer",
+  sidebar = qc$sidebar(),
+  
+  bslib::card(
+    bslib::card_header("About"),
+    shiny::p(
+      "Explore 14,887 Airbnb listings across Chicago, Columbus, and the Twin Cities. Ask questions in plain English to analyze prices, neighborhoods, reviews, availability, and more."
+    )
+  ),
+  
+  qc$ui()
+)
+
+server = function(input, output, session) {
+  qc$server()
+}
+
+shiny::shinyApp(ui, server)
