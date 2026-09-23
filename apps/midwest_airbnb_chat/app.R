@@ -18,22 +18,49 @@ qc = querychat::querychat(
   extra_instructions = "data/extra_instructions.md"
 )
 
-ui = bslib::page_sidebar(
+library(shiny)
+library(bslib)
+
+ui = page_sidebar(
   title = "Midwest Airbnb Explorer",
-  sidebar = qc$sidebar(),
-  
-  bslib::card(
-    bslib::card_header("About"),
-    shiny::p(
-      "Explore 14,887 Airbnb listings across Chicago, Columbus, and the Twin Cities. Ask questions in plain English to analyze prices, neighborhoods, reviews, availability, and more."
-    )
+  theme = bs_theme(
+    primary = "#C3142D",
+    base_font = font_google("Lato")
   ),
   
-  qc$ui()
+  sidebar = qc$sidebar(width = 350),
+  
+  card(
+    card_header(textOutput("title")),
+    DT::DTOutput("table")
+  ),
+  
+  accordion(
+    open = FALSE,
+    accordion_panel("SQL", verbatimTextOutput("sql")),
+    accordion_panel(
+      "About",
+      "14,887 Airbnb listings from Chicago, Columbus, and the Twin Cities; built by Henry Sevcik."
+    )
+  )
 )
 
 server = function(input, output, session) {
-  qc$server()
+  
+  vals = qc$server()
+  
+  output$title = renderText(
+    vals$title() %||% "All Airbnb listings"
+  )
+  
+  output$table = DT::renderDT(
+    vals$df(),
+    options = list(pageLength = 10)
+  )
+  
+  output$sql = renderText(
+    vals$sql() %||% "SELECT * FROM listings"
+  )
 }
 
-shiny::shinyApp(ui, server)
+shinyApp(ui, server)
