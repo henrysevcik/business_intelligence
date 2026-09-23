@@ -28,7 +28,10 @@ ui = page_sidebar(
     base_font = font_google("Lato")
   ),
   
-  sidebar = qc$sidebar(width = 350),
+  sidebar = sidebar(
+    width = 350,
+    qc$ui()
+  ),
   
   card(
     card_header(textOutput("title")),
